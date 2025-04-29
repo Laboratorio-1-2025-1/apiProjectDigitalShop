@@ -82,6 +82,27 @@ CREATE TABLE adminexample.orderdetail (
 ALTER TABLE adminexample.orderdetail OWNER TO postgres;
 
 --
+-- Name: orderdetail_id_seq; Type: SEQUENCE; Schema: adminexample; Owner: postgres
+--
+
+CREATE SEQUENCE adminexample.orderdetail_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE adminexample.orderdetail_id_seq OWNER TO postgres;
+
+--
+-- Name: orderdetail_id_seq; Type: SEQUENCE OWNED BY; Schema: adminexample; Owner: postgres
+--
+
+ALTER SEQUENCE adminexample.orderdetail_id_seq OWNED BY adminexample.orderdetail.id;
+
+
+--
 -- Name: product; Type: TABLE; Schema: adminexample; Owner: postgres
 --
 
@@ -180,6 +201,13 @@ CREATE TABLE adminexample.userapp (
 ALTER TABLE adminexample.userapp OWNER TO postgres;
 
 --
+-- Name: orderdetail id; Type: DEFAULT; Schema: adminexample; Owner: postgres
+--
+
+ALTER TABLE ONLY adminexample.orderdetail ALTER COLUMN id SET DEFAULT nextval('adminexample.orderdetail_id_seq'::regclass);
+
+
+--
 -- Data for Name: client; Type: TABLE DATA; Schema: adminexample; Owner: postgres
 --
 
@@ -194,7 +222,7 @@ COPY adminexample.client (id, name, lastname, mail, phone, address, status) FROM
 --
 
 COPY adminexample.clientorder (id, startdate, totalamount, status, clientid) FROM stdin;
-1	2025-04-07	0.00	a	1
+1	2025-04-07	2319.76	a	1
 \.
 
 
@@ -203,6 +231,9 @@ COPY adminexample.clientorder (id, startdate, totalamount, status, clientid) FRO
 --
 
 COPY adminexample.orderdetail (id, orderid, productid, quantity, price, subtotal, tax, discount) FROM stdin;
+1	1	1	10	1159.88	999.90	159.98	0.00
+2	1	1	10	1159.88	999.90	159.98	0.00
+3	1	1	10	1159.88	999.90	159.98	0.00
 \.
 
 
@@ -253,6 +284,13 @@ COPY adminexample.shop (id, name, address, mail, legalinfo) FROM stdin;
 
 COPY adminexample.userapp (id, username, password, roleid, status, creationdate) FROM stdin;
 \.
+
+
+--
+-- Name: orderdetail_id_seq; Type: SEQUENCE SET; Schema: adminexample; Owner: postgres
+--
+
+SELECT pg_catalog.setval('adminexample.orderdetail_id_seq', 3, true);
 
 
 --
@@ -410,6 +448,13 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE adminexample.clientorder TO adminexam
 --
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE adminexample.orderdetail TO adminexample;
+
+
+--
+-- Name: SEQUENCE orderdetail_id_seq; Type: ACL; Schema: adminexample; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE adminexample.orderdetail_id_seq TO adminexample;
 
 
 --

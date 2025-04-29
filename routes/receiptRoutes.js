@@ -13,7 +13,7 @@ router.post('/', receiptController.startReceipt);
 // Update receipt information
 router.put('/:id', receiptController.updateReceipt);
 // Update receipt status
-router.put('/:id', receiptController.updateReceiptStatus);
+router.put('/:id/status', receiptController.updateReceiptStatus);
 
 // We export all modules to index.js
 module.exports = router;

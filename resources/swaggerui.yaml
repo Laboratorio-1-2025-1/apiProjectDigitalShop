@@ -1,0 +1,394 @@
+openapi: 3.0.6
+info:
+  title: Lab 1 Project UCLA
+  description: |-
+    Billing API for a online shop based on clients, products, orders and receipts. Implementing email for receipt send.
+    Based on the OpenAPI 3.0 specification.
+  contact: 
+    email: andresema2@gmail.com
+  version: 1.0.0
+servers:
+  - url: http:127.0.0.1:3000/api
+tags:
+  - name: client
+    description: Operations about clients.
+  - name: product
+    description: Operations about products
+  - name: order
+    description: Order creation from clients with products
+  - name: receipt
+    description: Billing of the order
+paths:
+  /clients:
+    get:
+      tags:
+        - client
+      summary: Returns all clients
+      description: Return all clients from the system
+      operationId: getAllClient
+      responses:
+        '200':
+          description: A list of clients
+          content:
+            application/json:
+              examples:
+                foo:
+                  value:
+                    {
+                      "clients":
+                        [
+                          {
+                            "id": 1,
+                            "name": "Andres",
+                            "lastName": "Amaro",
+                            "mail": "emailandres1234@gmail.com",
+                            "phone": 55115223,
+                            "status": "a"
+                          },
+                        ]
+                    }
+  
+    post:
+      tags:
+        - client
+      summary: Add client
+      description: Adds one client to the system
+      operationId: addClient
+      responses:
+        '201':
+          description: New client has been registered
+        '400':
+          description: All information of the client must be provided
+  
+  /clients/{id}:
+    get:
+      tags:
+        - client
+      summary: Return one client
+      description: Retrieves information of one client by id
+      operationId: getClient
+      responses:
+        '200':
+          description: Information of one active client
+        '404':
+          description: Client not found
+    parameters:
+      - name: id
+        in: path
+        description: ID of client to use
+        required: true
+        content:
+          application/json:
+            examples:
+              foo:
+                value:
+                  {
+                    "id": 1
+                  }
+        
+    put:
+      tags:
+        - client
+      summary: Updates client
+      description: Updates a client information
+      operationId: updateClient
+      responses:
+        '201':
+          description: Client information updated
+        '404':
+          description: Client not found
+        '400':
+          description: All information of the client must be provided
+    
+    delete:
+      tags:
+        - client
+      summary: Delete client
+      description: Deletes a client information
+      operationId: deleteClient
+      responses:
+        '200':
+          description: Client registry deleted
+        '404':
+          description: Client not found
+  /products:
+    get:
+      tags:
+        - product
+      summary: Returns all products
+      description: Return all products from the system
+      operationId: getAllProduct
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              examples:
+                foo:
+                  value:
+                    {
+                      "products":
+                        [
+                          {
+                            "id": 1,
+                            "name": "doritos",
+                            "description": "snack",
+                            "category": "edible",
+                            "unitprice": 99.99,
+                            "stock": 100,
+                            "taxinfo": "i"
+                          }
+                        ]
+                    }
+  
+    post:
+      tags:
+        - product
+      summary: Add product
+      description: Adds one product to the system
+      operationId: addProduct
+      responses:
+        '201':
+          description: New product has been registered
+        '400':
+          description: All information of the product must be provided
+  
+  /products/{id}:
+    get:
+      tags:
+        - product
+      summary: Return one product
+      description: Retrieves information of one product by id
+      operationId: getProduct
+      responses:
+        '200':
+          description: Information of one active product
+        '404':
+          description: product not found
+    parameters:
+      - name: id
+        in: path
+        description: ID of product to use
+        required: true
+        content:
+          application/json:
+            examples:
+              foo:
+                value:
+                  {
+                    "id": 1
+                  }
+        
+    put:
+      tags:
+        - product
+      summary: Updates product
+      description: Updates a product information
+      operationId: updateProduct
+      responses:
+        '201':
+          description: product information updated
+        '404':
+          description: product not found
+        '400':
+          description: All information of the product must be provided
+    
+    delete:
+      tags:
+        - product
+      summary: Delete product
+      description: Deletes a product information
+      operationId: deleteProduct
+      responses:
+        '200':
+          description: product registry deleted
+        '404':
+          description: product not found
+  
+  /order:
+    get:
+      tags:
+        - order
+      summary: Returns all orders
+      description: Return all orders from the system
+      operationId: getAllOrders
+      responses:
+        '200':
+          description: A list of order
+          content:
+            application/json:
+              examples:
+                foo:
+                  value:
+                    {
+                      "order":
+                        [
+                          {
+                            "id": 1,
+                            "startdate": "2025-04-29",
+                            "totalamount": 999.99,
+                            "status": "a",
+                            "clientid": 1,
+                          }
+                        ]
+                    }
+  
+    post:
+      tags:
+        - order
+      summary: Add order
+      description: Adds one order to the system
+      operationId: startOrder
+      responses:
+        '201':
+          description: New order has been registered
+        '400':
+          description: All information of the order must be provided
+        '404':
+          description: The client does not exist or is not active
+  
+  /order/{id}:
+    get:
+      tags:
+        - order
+      summary: Return one order
+      description: Retrieves information of one order by id
+      operationId: getOrder
+      responses:
+        '200':
+          description: Information of one active order
+        '404':
+          description: order not found
+    parameters:
+      - name: id
+        in: path
+        description: ID of order to use
+        required: true
+        content:
+          application/json:
+            examples:
+              foo:
+                value:
+                  {
+                    "id": 1
+                  }
+        
+    put:
+      tags:
+        - order
+      summary: Updates order
+      description: Updates a order information
+      operationId: updateOrder
+      responses:
+        '201':
+          description: order information updated
+        '400':
+          description: All information of the order must be provided
+  
+  /receipt:
+    get:
+      tags:
+        - receipt
+      summary: Returns all receipts
+      description: Return all receipts from the system
+      operationId: getAllReceipts
+      responses:
+        '200':
+          description: A list of receipt
+          content:
+            application/json:
+              examples:
+                foo:
+                  value:
+                    {
+                      "receipt":
+                        [
+                          {
+                            "id": 1,
+                            "receiptnr": 1,
+                            "emitdate": "2025-04-29",
+                            "totalamount": 999.99,
+                            "clientid": 1,
+                            "shopid": 1,
+                            "status": "e"
+                          }
+                        ]
+                    }
+  
+    post:
+      tags:
+        - receipt
+      summary: Add receipt
+      description: Adds one receipt to the system
+      operationId: startReceipt
+      responses:
+        '201':
+          description: New receipt has been registered
+        '400':
+          description: All information of the receipt must be provided
+        '404':
+          description: The client does not exist or is not active
+  
+  /receipt/{id}:
+    get:
+      tags:
+        - receipt
+      summary: Return one receipt
+      description: Retrieves information of one receipt by id
+      operationId: getReceipt
+      responses:
+        '200':
+          description: Information of one active receipt
+        '404':
+          description: receipt not found
+    parameters:
+      - name: id
+        in: path
+        description: ID of receipt to use
+        required: true
+        content:
+          application/json:
+            examples:
+              foo:
+                value:
+                  {
+                    "id": 1
+                  }
+        
+    put:
+      tags:
+        - receipt
+      summary: Updates receipt
+      description: Updates a receipt information
+      operationId: updateReceipt
+      responses:
+        '201':
+          description: receipt information updated
+        '400':
+          description: All information of the receipt must be provided
+    
+  /receipt/{id}/status:
+    put:
+      tags:
+        - receipt
+      summary: Updates receipt
+      description: Updates a receipt information
+      operationId: updateReceiptStatus
+      responses:
+        '200':
+          description: receipt status successfully changed
+        '400':
+          description: Insert a valid receipt status a, p, n        
+    parameters:
+      - name: id
+        in: path
+        description: ID of receipt to use
+        required: true
+        content:
+          application/json:
+            examples:
+              foo:
+                value:
+                  {
+                    "id": 1
+                  }
